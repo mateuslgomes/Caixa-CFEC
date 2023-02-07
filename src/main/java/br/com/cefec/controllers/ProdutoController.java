@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("caixa")
-public class CaixaController {
+public class ProdutoController {
 
     @Autowired
     ProdutoServices produtoServices;
@@ -68,8 +68,5 @@ public class CaixaController {
         return ResponseEntity.status(HttpStatus.OK).body("O produto " + produtoOptional.get().getTitulo() +
                 " foi deletado com sucesso!");
     }
-
-
-
 
 }
