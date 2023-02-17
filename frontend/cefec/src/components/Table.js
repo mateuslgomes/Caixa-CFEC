@@ -10,10 +10,10 @@ const Table = ({ data }) => {
           <table className="table table-striped table-hover">
             <thead>
               <tr>
-                <th>#</th>
+                <th>Id</th>
                 <th>Serviço</th>
-                <th>Esoque</th>
-                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Valor</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -59,6 +59,9 @@ function deletById(data) {
         window.location.reload()
     }
 }
+
+
+
 
 
 export default Table;

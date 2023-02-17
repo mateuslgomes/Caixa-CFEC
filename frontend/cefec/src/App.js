@@ -36,7 +36,7 @@ function App() {
                   className="btn btn-success"
                   data-toggle="modal"
                   ><i className="material-icons">&#xE147;</i>
-                  <span>Add New Employee</span></a
+                  <span>Cadastrar</span></a
                 >
                 <a
                   href="#deleteEmployeeModal"
@@ -74,7 +74,7 @@ function App() {
         <div className="modal-content">
           <form>
             <div className="modal-header">
-              <h4 className="modal-title">Add Employee</h4>
+              <h4 className="modal-title">Cadastrar</h4>
               <button
                 type="button"
                 className="close"
@@ -86,20 +86,16 @@ function App() {
             </div>
             <div className="modal-body">
               <div className="form-group">
-                <label>Name</label>
-                <input type="text" className="form-control" required />
+                <label>Titulo:</label>
+                <input id="titulo" type="text" className="form-control" required />
               </div>
               <div className="form-group">
-                <label>Email</label>
-                <input type="email" className="form-control" required />
+                <label>Estoque:</label>
+                <input id="estoque" type="number" className="form-control" required />
               </div>
               <div className="form-group">
-                <label>Address</label>
-                <textarea className="form-control" required></textarea>
-              </div>
-              <div className="form-group">
-                <label>Phone</label>
-                <input type="text" className="form-control" required />
+                <label>Valor:</label>
+                <input id="valor" type="number" className="form-control" required></input>
               </div>
             </div>
             <div className="modal-footer">
@@ -107,9 +103,9 @@ function App() {
                 type="button"
                 className="btn btn-default"
                 data-dismiss="modal"
-                value="Cancel"
+                value="Cancelar"
               />
-              <input type="submit" className="btn btn-success" value="Add" />
+              <input type="submit" onClick={() =>  saveServico()} className="btn btn-success" value="Cadastrar" />
             </div>
           </form>
         </div>
@@ -117,6 +113,10 @@ function App() {
     </div>
     </div>
   );
+}
+
+function saveServico() {
+    alert(document.querySelector("#estoque"))
 }
 
 export default App;
