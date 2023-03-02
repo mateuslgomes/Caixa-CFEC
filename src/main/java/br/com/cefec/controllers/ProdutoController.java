@@ -14,9 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,21 +25,41 @@ public class ProdutoController {
 
     @Autowired
     ProdutoServices produtoServices;
+
     @Autowired
-    private ProdutoRepository produtoRepository;
+    ProdutoRepository produtoRepository;
+
+    @Autowired
+    FaturamentoRepository faturamentoRepository;
 
     @GetMapping
     public ResponseEntity<List<ProdutoModel>> getDados() {
         return ResponseEntity.status(HttpStatus.OK).body(produtoServices.findAll());
     }
 
+
+    @GetMapping("total/{id}")
+    public ResponseEntity<Object> getPagamento(@PathVariable UUID id) {
+        Optional<FaturamentoModel> faturamentoModelOptional = produtoServices.faturamentoFindById(id);
+        if (faturamentoModelOptional.isEmpty()) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("Total não encontrado");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(faturamentoModelOptional.get());
+    }
+
     @GetMapping("total")
-    public ResponseEntity<BigDecimal> getTotal() {
-        return ResponseEntity.status(HttpStatus.OK).body(new BigDecimal("1"));
+    public ResponseEntity<Double> getTotal() {
+        List<FaturamentoModel> faturamentoList = produtoServices.faturamentoFindAll();
+        Double faturamentoTotal = 0.0;
+        for (int i = 0; i != faturamentoList.size(); i++) {
+            faturamentoTotal += faturamentoList.get(i).getValor();
+            System.out.println(faturamentoList.get(i).getValor());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(faturamentoTotal);
     }
 
     @PostMapping("total")
-    public ResponseEntity<Object> saveTotal(@RequestBody @Valid FaturamentoDto dto) {
+    public ResponseEntity<FaturamentoModel> saveTotal(@RequestBody @Valid FaturamentoDto dto) {
         var faturamentoModel = new FaturamentoModel();
         BeanUtils.copyProperties(dto, faturamentoModel);
         faturamentoModel.setDate(LocalDate.now());

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -26,7 +25,7 @@ public class ProdutoModel {
     private String titulo;
 
     @Column(name = "preco", nullable = false)
-    private BigDecimal preco;
+    private Double preco;
 
     @Column(name = "estoque", nullable = false)
     private Integer estoque;

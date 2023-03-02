@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 public class ProdutoDto {
@@ -15,7 +13,7 @@ public class ProdutoDto {
     private String titulo;
 
     @NotNull
-    private BigDecimal preco;
+    private Double preco;
 
     @NotNull
     private Integer estoque;

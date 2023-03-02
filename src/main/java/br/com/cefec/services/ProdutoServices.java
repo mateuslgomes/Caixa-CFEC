@@ -1,6 +1,5 @@
 package br.com.cefec.services;
 
-import br.com.cefec.dtos.FaturamentoDto;
 import br.com.cefec.models.FaturamentoModel;
 import br.com.cefec.models.ProdutoModel;
 import br.com.cefec.repositories.FaturamentoRepository;
@@ -29,7 +28,7 @@ public class ProdutoServices {
         return produtoRepository.save(model);
     }
 
-    public Object saveTotal(FaturamentoModel model) {
+    public FaturamentoModel saveTotal(FaturamentoModel model) {
         return faturamentoRepository.save(model);
     }
 
@@ -45,4 +44,11 @@ public class ProdutoServices {
         return produtoRepository.findById(id);
     }
 
+    public Optional<FaturamentoModel> faturamentoFindById(UUID id) {
+        return faturamentoRepository.findById(id);
+    }
+
+    public List<FaturamentoModel> faturamentoFindAll() {
+        return faturamentoRepository.findAll();
+    }
 }

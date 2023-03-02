@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -24,7 +22,7 @@ public class FaturamentoModel {
     private UUID id;
 
     @Column(name = "valor", nullable = false, length = 50)
-    private BigDecimal valor;
+    private Double valor;
 
     @Column(name = "date")
     private LocalDate date;
