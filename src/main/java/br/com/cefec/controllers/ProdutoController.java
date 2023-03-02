@@ -1,7 +1,10 @@
 package br.com.cefec.controllers;
 
+import br.com.cefec.dtos.FaturamentoDto;
 import br.com.cefec.dtos.ProdutoDto;
+import br.com.cefec.models.FaturamentoModel;
 import br.com.cefec.models.ProdutoModel;
+import br.com.cefec.repositories.FaturamentoRepository;
 import br.com.cefec.repositories.ProdutoRepository;
 import br.com.cefec.services.ProdutoServices;
 import jakarta.validation.Valid;
@@ -11,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,10 +30,22 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-
     @GetMapping
     public ResponseEntity<List<ProdutoModel>> getDados() {
         return ResponseEntity.status(HttpStatus.OK).body(produtoServices.findAll());
+    }
+
+    @GetMapping("total")
+    public ResponseEntity<BigDecimal> getTotal() {
+        return ResponseEntity.status(HttpStatus.OK).body(new BigDecimal("1"));
+    }
+
+    @PostMapping("total")
+    public ResponseEntity<Object> saveTotal(@RequestBody @Valid FaturamentoDto dto) {
+        var faturamentoModel = new FaturamentoModel();
+        BeanUtils.copyProperties(dto, faturamentoModel);
+        faturamentoModel.setDate(LocalDate.now());
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoServices.saveTotal(faturamentoModel));
     }
 
     @PostMapping

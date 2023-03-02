@@ -1,6 +1,9 @@
 package br.com.cefec.services;
 
+import br.com.cefec.dtos.FaturamentoDto;
+import br.com.cefec.models.FaturamentoModel;
 import br.com.cefec.models.ProdutoModel;
+import br.com.cefec.repositories.FaturamentoRepository;
 import br.com.cefec.repositories.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +21,16 @@ public class ProdutoServices {
     @Autowired
     ProdutoRepository produtoRepository;
 
+    @Autowired
+    FaturamentoRepository faturamentoRepository;
+
     @Transactional
     public ProdutoModel save(ProdutoModel model) {
         return produtoRepository.save(model);
+    }
+
+    public Object saveTotal(FaturamentoModel model) {
+        return faturamentoRepository.save(model);
     }
 
     public List<ProdutoModel> findAll() {
