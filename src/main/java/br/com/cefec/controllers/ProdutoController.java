@@ -1,13 +1,19 @@
 package br.com.cefec.controllers;
 
+import br.com.cefec.client.EmailClient;
+import br.com.cefec.dtos.EmailDto;
 import br.com.cefec.dtos.FaturamentoDto;
 import br.com.cefec.dtos.ProdutoDto;
 import br.com.cefec.models.FaturamentoModel;
+import br.com.cefec.models.MensagemModel;
 import br.com.cefec.models.ProdutoModel;
 import br.com.cefec.repositories.FaturamentoRepository;
 import br.com.cefec.repositories.ProdutoRepository;
 import br.com.cefec.services.ProdutoServices;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,11 +38,15 @@ public class ProdutoController {
     @Autowired
     FaturamentoRepository faturamentoRepository;
 
+    @Autowired
+    EmailClient emailClient;
+
+    private static final Logger logger = LoggerFactory.getLogger(EmailClient.class);
+
     @GetMapping
     public ResponseEntity<List<ProdutoModel>> getDados() {
         return ResponseEntity.status(HttpStatus.OK).body(produtoServices.findAll());
     }
-
 
     @GetMapping("total/{id}")
     public ResponseEntity<Object> getPagamento(@PathVariable UUID id) {
@@ -79,6 +89,20 @@ public class ProdutoController {
         return produtoOptional.<ResponseEntity<Object>>map(produtoModel -> ResponseEntity.status(HttpStatus.OK)
                 .body(produtoModel)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("Produto não encontrado"));
+    }
+
+    @PostMapping("sending-email")
+    public ResponseEntity<String> sendingEmail(@RequestBody MensagemModel msg) {
+        try {
+            System.out.println(msg.getMensagem());
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            emailClient.sendingEmail(EmailDto.of("teste de envio de email!!!"));
+
+            return ResponseEntity.status(HttpStatus.OK).body("sucess");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.OK).body("failed " + e.getMessage());
+        }
     }
 
     @PutMapping("{id}")
