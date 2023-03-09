@@ -1,16 +1,16 @@
 package br.com.cefec.services;
 
-import br.com.cefec.models.FaturamentoModel;
+import br.com.cefec.dtos.ProdutoDto;
+import br.com.cefec.exceptions.NotFoundException;
 import br.com.cefec.models.ProdutoModel;
-import br.com.cefec.repositories.FaturamentoRepository;
 import br.com.cefec.repositories.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,35 +20,32 @@ public class ProdutoServices {
     @Autowired
     ProdutoRepository produtoRepository;
 
-    @Autowired
-    FaturamentoRepository faturamentoRepository;
-
     @Transactional
-    public ProdutoModel save(ProdutoModel model) {
-        return produtoRepository.save(model);
-    }
-
-    public FaturamentoModel saveTotal(FaturamentoModel model) {
-        return faturamentoRepository.save(model);
+    public ProdutoModel update(UUID id, ProdutoDto dto) {
+        var produto = findById(id);
+        BeanUtils.copyProperties(dto, produto);
+        return produtoRepository.save(produto);
     }
 
     public List<ProdutoModel> findAll() {
         return produtoRepository.findAll();
     }
 
-    public void deleteById(UUID id) {
-        produtoRepository.deleteById(id);
+    public void delete (UUID id) {
+        produtoRepository.delete(findById(id));
     }
 
-    public Optional<ProdutoModel> findById(UUID id) {
-        return produtoRepository.findById(id);
+    public ProdutoModel findById (UUID id) {
+        return produtoRepository.findById(id).orElseThrow(() -> new NotFoundException("ID não encontrado"));
     }
 
-    public Optional<FaturamentoModel> faturamentoFindById(UUID id) {
-        return faturamentoRepository.findById(id);
+    public ProdutoModel save(ProdutoDto produtoDto) {
+        ProdutoModel produto = ProdutoModel.builder()
+                .titulo(produtoDto.getTitulo())
+                .estoque(produtoDto.getEstoque())
+                .preco(produtoDto.getPreco())
+                .build();
+        return produtoRepository.save(produto);
     }
 
-    public List<FaturamentoModel> faturamentoFindAll() {
-        return faturamentoRepository.findAll();
-    }
 }

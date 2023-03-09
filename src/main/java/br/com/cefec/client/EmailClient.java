@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "msEmail", url = "http://localhost:8081")
 public interface EmailClient {
 
-    static final String URL = "/sending-email";
+    String URL = "/sending-email";
 
     @PostMapping(URL)
     void sendingEmail(@RequestBody EmailDto dto);

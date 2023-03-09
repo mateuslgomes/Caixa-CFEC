@@ -1,5 +1,6 @@
 package br.com.cefec.models;
 
+import br.com.cefec.dtos.FaturamentoDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,5 +27,14 @@ public class FaturamentoModel {
 
     @Column(name = "date")
     private LocalDate date;
+
+    public FaturamentoModel(FaturamentoDto dto) {
+        this.valor = dto.getValor();
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.date = LocalDate.now();
+    }
 
 }

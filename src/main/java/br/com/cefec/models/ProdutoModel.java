@@ -1,16 +1,14 @@
 package br.com.cefec.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "produtos")
