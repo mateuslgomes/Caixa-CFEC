@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -26,13 +28,13 @@ public class EmailDto {
         this.text = msg;
     }
 
-    public static EmailDto of(String text) {
+    public static EmailDto of(Double faturamentoDia) {
         return EmailDto.builder()
                 .ownerRef("mateuslogo08@gmail.com")
                 .emailFrom("mateuslogo08@gmail.com")
                 .subject("Faturamento")
                 .emailTo("mateuslogo08@gmail.com")
-                .text(text)
+                .text("Faturamento do dia: " + LocalDate.now() + ": " + faturamentoDia)
                 .build();
     }
 
