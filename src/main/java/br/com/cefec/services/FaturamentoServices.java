@@ -26,8 +26,8 @@ public class FaturamentoServices {
         return faturamentoRepository.findById(id).orElseThrow(() -> new NotFoundException("ID não encontrado"));
     }
 
-    public Double getFaturamentoDia() {
-        List<FaturamentoModel> faturamentoModels = faturamentoRepository.findByDate(LocalDate.now());
+    public Double getFaturamentoDia(LocalDate data) {
+        List<FaturamentoModel> faturamentoModels = faturamentoRepository.findByDate(data);
         Double faturamentoDia = 0.0;
         for (FaturamentoModel faturamento : faturamentoModels) {
             faturamentoDia += faturamento.getValor();
